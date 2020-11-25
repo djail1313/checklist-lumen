@@ -16,3 +16,13 @@
 $router->get('/', [function () use ($router) {
     return $router->app->version();
 }]);
+
+$router->group(['prefix' => 'checklists'], function () use ($router) {
+
+    $router->group(['prefix' => 'templates', 'namespace' => 'Templates'], function () use ($router) {
+
+        $router->get('', 'ListsController@execute');
+
+    });
+
+});
