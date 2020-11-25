@@ -21,7 +21,14 @@ $router->group(['prefix' => 'checklists'], function () use ($router) {
 
     $router->group(['prefix' => 'templates', 'namespace' => 'Templates'], function () use ($router) {
 
-        $router->get('', 'ListsController@execute');
+        $router->get('', [
+            'as' => 'templates.list',
+            'uses' => 'ListsController@execute'
+        ]);
+        $router->post('', [
+            'as' => 'templates.create',
+            'uses' => 'CreateController@execute'
+        ]);
 
     });
 
