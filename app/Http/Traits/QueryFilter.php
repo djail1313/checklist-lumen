@@ -37,12 +37,25 @@ trait QueryFilter
         return $columns;
     }
 
+    protected function getSortQuery(Builder $query)
+    {
+        if ($sort = request()->query('sort')) {
+            $direction = 'asc';
+            if ($sort[0] == '-') {
+                $direction = 'desc';
+                $sort = ltrim($sort, '-');
+            }
+            $query = $query->orderBy($sort, $direction);
+        }
+        return $query;
+    }
+
     protected function applyFilter(Builder $query)
     {
         $page_info = $this->getPageInfo();
         $columns = $this->getFieldsQuery();
 
-        return $query->paginate(
+        return $this->getSortQuery($query)->paginate(
             $page_info['limit'],
             $columns,
             'page',
